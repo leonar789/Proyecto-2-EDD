@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package proyecto.pkg2.edd;
+package arbolavl;
 
 /**
  *
  * @author Leonardo
  */
-public class main {
+public class ArbolAVL {
 
     /**
      * @param args the command line arguments
