@@ -4,6 +4,9 @@
  */
 package estructuras;
 
+import clases.Habitacion;
+import clases.Cliente;
+
 /**
  *
  * @author Leonardo

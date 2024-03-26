@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package estructuras;
+package clases;
 
 /**
  *
@@ -50,9 +50,11 @@ public class Cliente {
         this.nombreCompleto = nombre + " " + apellido;
     }
 
+
     public int getCedula() {
         return this.cedula;
     }
+    
 
     public int getHabitacion() {
         return this.habitacion;

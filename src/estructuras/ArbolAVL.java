@@ -169,13 +169,13 @@ public class ArbolAVL<T> {
             return null;
         }
         if (key > root.getkey()){
-            buscar(key, root.getHijoDer());
+            return buscar(key, root.getHijoDer());
         }else if (key < root.getkey()) {
-            buscar(key, root.getHijoIzq());
+            return buscar(key, root.getHijoIzq());
         }else {
             return root.get();
         }
-        return null;
+        
     }
     public void inOrder(NodoArbolAVL root) {
         if (root!= null){

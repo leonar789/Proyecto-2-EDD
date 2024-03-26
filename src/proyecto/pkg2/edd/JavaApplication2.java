@@ -7,8 +7,8 @@ package proyecto.pkg2.edd;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import estructuras.ArbolAVL;
-import estructuras.Cliente;
-import estructuras.Habitacion;
+import clases.Cliente;
+import clases.Habitacion;
 import estructuras.ListaDoble;
 import estructuras.NodoDoble;
 import java.io.BufferedReader;
@@ -39,9 +39,10 @@ public class JavaApplication2 {
             ListaDoble lista = new ListaDoble();
             lector = new BufferedReader(new FileReader(archivo));
             while((linea = lector.readLine())!= null){
-                if(copia == true){
-                   linea = linea.replaceAll("\"", "");
-                }
+                //if(copia == true){
+                //   linea = linea.replaceAll("\"", "");
+                //}
+                System.out.println(linea);
                 partes = linea.split(",");
                 switch (tema) {
                     case "reserva" -> lista.append(new Cliente(Integer.parseInt(partes[0]), partes[1], partes[2], partes[3], partes[4], partes[6], partes[7], partes[8], partes[5]));
@@ -86,7 +87,7 @@ public class JavaApplication2 {
     public void Guardar(String archivo, ListaDoble info, String tema){
         try{
             NodoDoble nodo = info.getFirstNodo();
-            CSVWriter escribir = new CSVWriter(new FileWriter(archivo));
+            CSVWriter escribir = new CSVWriter(new FileWriter(archivo),CSVWriter.DEFAULT_SEPARATOR,CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER,CSVWriter.DEFAULT_LINE_END);
             while(nodo != null){
                 switch (tema) {
                     case "estado" ->                         {
