@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package proyecto.pkg2.edd;
+package clases;
 
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import estructuras.ArbolAVL;
 import clases.Cliente;
 import clases.Habitacion;
+import estructuras.HashTable;
 import estructuras.ListaDoble;
 import estructuras.NodoDoble;
 import java.io.BufferedReader;
@@ -17,12 +18,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
  * @author Jose Gabriel
  */
-public class JavaApplication2 {
+public class GestorArchivos {
     private BufferedReader lector;
     private String linea;
     private String partes[] = null;
@@ -34,15 +37,13 @@ public class JavaApplication2 {
      * @throws java.io.IOException
      */
     
-    public ListaDoble hacerLista(String archivo, String tema, boolean copia) throws IOException {
+    
+    //se encarga del cargado de la información desde los csv
+    public ListaDoble hacerLista(String archivo, String tema) throws IOException {
         try{
             ListaDoble lista = new ListaDoble();
             lector = new BufferedReader(new FileReader(archivo));
             while((linea = lector.readLine())!= null){
-                //if(copia == true){
-                //   linea = linea.replaceAll("\"", "");
-                //}
-                System.out.println(linea);
                 partes = linea.split(",");
                 switch (tema) {
                     case "reserva" -> lista.append(new Cliente(Integer.parseInt(partes[0]), partes[1], partes[2], partes[3], partes[4], partes[6], partes[7], partes[8], partes[5]));
@@ -63,7 +64,7 @@ public class JavaApplication2 {
             return null;
         }
     }
-
+    //funcion que permite construir un arbol a partir de una lista
     public ArbolAVL hacerArbol(ListaDoble nuevo_arbol){
         NodoDoble primero = nuevo_arbol.getFirstNodo();
         ArbolAVL arbol = new ArbolAVL();
@@ -73,7 +74,7 @@ public class JavaApplication2 {
         }
         return arbol;
     }
-    
+    //se emplea para refrescar el condenido de la base de datos
     public void Vaciado(String archivo) throws FileNotFoundException, IOException, CsvValidationException{
         try{
             BufferedWriter bw = new BufferedWriter(new FileWriter(archivo));
@@ -83,7 +84,7 @@ public class JavaApplication2 {
             
         }
     }  
-    
+    //permite guardar los cambios en los csv
     public void Guardar(String archivo, ListaDoble info, String tema){
         try{
             NodoDoble nodo = info.getFirstNodo();
@@ -124,7 +125,6 @@ public class JavaApplication2 {
         }
         
     }
-    
     
     
     

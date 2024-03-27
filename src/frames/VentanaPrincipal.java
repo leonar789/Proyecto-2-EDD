@@ -37,7 +37,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     static CardLayout vista;
     
     static App app;
-    public VentanaPrincipal() throws IOException {
+    public VentanaPrincipal() throws IOException{
         initComponents();
         App app=new App();
         vista=(CardLayout)vistaPrincipal.getLayout();
@@ -46,8 +46,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pnl_MostrarEstado= new Estado();
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
+    
+    //pregunta antes de cerrar el programa
     public void Cerrar() throws IOException, FileNotFoundException, CsvValidationException{
-        String botones[]={"Guardar","Cancelar"};
+        String botones[]={"Salir","Cancelar"};
         int eleccion= JOptionPane.showOptionDialog(this,"Desea cerrar. Los cambios se guardarán automaticamente","Advertencia",0,0,null,botones,this);
         if (eleccion==JOptionPane.YES_OPTION){
             App.Guardar();
@@ -56,10 +58,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
    
     
-    //se emplea para actualizar los combobox de las ciudades
-
-    
-    //permite actualizar el visualizador del mapa
 
 
     /**
@@ -128,11 +126,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Buscador de ");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Clientes");
@@ -140,7 +139,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         boton_Guardar.setBackground(new java.awt.Color(204, 204, 204));
         buttonGroup1.add(boton_Guardar);
         boton_Guardar.setForeground(new java.awt.Color(0, 0, 0));
-        boton_Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/archivo.png"))); // NOI18N
+        boton_Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salida.png"))); // NOI18N
         boton_Guardar.setText("Finalizar");
         boton_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,27 +153,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(19, 19, 19)))
-                .addGap(31, 31, 31))
+                .addComponent(jLabel5)
+                .addGap(42, 42, 42))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(verEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(boton_Reservas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(boton_historico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(boton_Guardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(boton_Guardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(boton_Reservas, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,7 +253,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     private void boton_ReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_ReservasActionPerformed
         
-        //se muestra el panel de simulacion
+        //se muestra el panel de reservas
         pnl_MostrarReservas.cargarTabla(App.listaReservas);
         vistaPrincipal.add(pnl_MostrarReservas,"reservas");
         vista.show(vistaPrincipal, "reservas");
@@ -266,7 +262,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_ReservasActionPerformed
 
     private void boton_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_historicoActionPerformed
-        //se muestra el panel de edición de mapa
+        //se muestra el panel de histórico
         pnl_MostrarHistorico.cargarTabla(App.listaHistorico);
         vistaPrincipal.add(pnl_MostrarHistorico,"historico");
         vista.show(vistaPrincipal, "historico");
@@ -276,6 +272,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_historicoActionPerformed
 
     private void verEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verEstadoActionPerformed
+        //muestra el panel de estado
         pnl_MostrarEstado.cargarTabla(App.listaEstado);
         vistaPrincipal.add(pnl_MostrarEstado,"estado");
         vista.show(vistaPrincipal, "estado");
@@ -285,6 +282,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void boton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_GuardarActionPerformed
         try {
+            //guarda y cierra el programa
             this.Cerrar();
         } catch (IOException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -295,6 +293,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
+            //pregunta si deseas cerrar al darle a la x
             this.Cerrar();
         } catch (IOException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);

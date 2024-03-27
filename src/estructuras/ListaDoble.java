@@ -6,6 +6,10 @@ package estructuras;
 
 import clases.Habitacion;
 import clases.Cliente;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -176,7 +180,39 @@ public class ListaDoble<T> {
             this.len--;
         }
     }
-    
+    public void insertarAlPrincipio(NodoDoble nNodo){
+        if (esVacia()){
+            pFirst=nNodo;
+        }
+        else{
+            nNodo.setNext(pFirst);
+            pFirst.setPrev(nNodo);
+            pFirst=nNodo;
+        }
+        
+        len++;
+    }
+    public void insertarPorIndice(T objeto,int indice){
+        NodoDoble nNodo=new NodoDoble(objeto);
+        if (indice==0){
+            insertarAlPrincipio(nNodo);
+        }
+        else if (indice<len-1){
+            NodoDoble aux=pFirst;
+            for(int i=0;i<indice-1;i++){
+                aux=aux.nNext();
+            }
+            nNodo.setNext(aux.nNext());
+            aux.nNext().setPrev(nNodo);
+            aux.setNext(nNodo);
+            nNodo.setPrev(aux);
+            len++;
+        }
+        else if (indice==len-1){
+            this.append(objeto);
+        }
+       
+    }
     
     //borra un elemento de la lista dado su indice
     public void deleteByIndex(int index) {
@@ -236,6 +272,17 @@ public class ListaDoble<T> {
             }
             habitacion = habitacion.nNext();
         }        
-    }     
+    }   
+ 
+    public HashTable hacerHash(){
+        NodoDoble nodo = this.getFirstNodo();
+        HashTable hashy = new HashTable(len);
+        while(nodo != null){
+            hashy.Insertar((Cliente) nodo.get());
+            nodo = nodo.nNext();
+        }
+        return hashy;
+    }
+    
     
 }

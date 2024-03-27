@@ -7,17 +7,26 @@ package frames;
 
 import clases.App;
 import clases.Cliente;
+import estructuras.HashTable;
 
 import estructuras.ListaDoble;
 import estructuras.NodoDoble;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import javax.swing.table.DefaultTableModel;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -39,8 +48,7 @@ public class Estado extends javax.swing.JPanel {
     
     
 
-    
-    //una vez finalizada la simulación, habilita la edición del grafo
+    //permite cargar los datos de la tabla desde una lista
     public void cargarTabla(ListaDoble lista){
         
         
@@ -87,11 +95,11 @@ public class Estado extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        tCedula = new javax.swing.JTextField();
+        tNombre = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        buscar1 = new javax.swing.JButton();
+        checkOut = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         restaurarTabla = new javax.swing.JButton();
@@ -126,8 +134,9 @@ public class Estado extends javax.swing.JPanel {
             tablaReservas.getColumnModel().getColumn(7).setPreferredWidth(40);
         }
 
-        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel1.setText("Reservas");
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Clientes Hospedados");
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel2.setText("Navegación");
@@ -135,13 +144,12 @@ public class Estado extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel3.setText("Nombre");
 
-        tCedula.setBackground(new java.awt.Color(255, 255, 255));
-        tCedula.setForeground(new java.awt.Color(0, 0, 0));
-        tCedula.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        tCedula.setToolTipText("");
-        tCedula.addActionListener(new java.awt.event.ActionListener() {
+        tNombre.setBackground(new java.awt.Color(255, 255, 255));
+        tNombre.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tNombre.setToolTipText("");
+        tNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tCedulaActionPerformed(evt);
+                tNombreActionPerformed(evt);
             }
         });
 
@@ -166,7 +174,7 @@ public class Estado extends javax.swing.JPanel {
                         .addGap(6, 6, 6)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(tCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(buscar)
                         .addGap(39, 39, 39))))
@@ -179,7 +187,7 @@ public class Estado extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(tCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscar))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -187,10 +195,10 @@ public class Estado extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel4.setText("Check Out");
 
-        buscar1.setText("Registrar Entrada");
-        buscar1.addActionListener(new java.awt.event.ActionListener() {
+        checkOut.setText("Registrar Salida");
+        checkOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscar1ActionPerformed(evt);
+                checkOutActionPerformed(evt);
             }
         });
 
@@ -204,7 +212,7 @@ public class Estado extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(buscar1)))
+                        .addComponent(checkOut)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -213,7 +221,7 @@ public class Estado extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buscar1)
+                .addComponent(checkOut)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -267,7 +275,7 @@ public class Estado extends javax.swing.JPanel {
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(53, 53, 53)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(56, 56, Short.MAX_VALUE)
+                        .addGap(65, 65, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)))
                 .addContainerGap())
@@ -275,7 +283,7 @@ public class Estado extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,23 +296,53 @@ public class Estado extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tCedulaActionPerformed
+    private void tNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tCedulaActionPerformed
+    }//GEN-LAST:event_tNombreActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        int cedula=Integer.parseInt(tCedula.getText());
-        ListaDoble nLista= new ListaDoble();
-        Cliente c=(Cliente)App.reservas.buscar(cedula, App.reservas.getRaiz());
-        nLista.append(c);
-        this.cargarTabla(nLista);
-       
         
+       String nombre_completo = tNombre.getText();
+       if(nombre_completo.matches(".*[0-9].*")||nombre_completo.replaceFirst(" ", "").contains(" ") || !nombre_completo.contains(" ")||nombre_completo.trim().length() == 0){
+            JOptionPane.showInternalMessageDialog(null, "Debe ingresar nombre y apellido separados por un solo espacio. Emplear solo letras", "Ingreso inválido", JOptionPane.ERROR_MESSAGE);
+
+          }
+       else{
+            String[] partes = nombre_completo.split(" ");
+            ListaDoble leer = App.hash.Buscar(App.capitalize(partes[0]), App.capitalize(partes[1]));
+            if (leer==null){
+                JOptionPane.showMessageDialog(null, "Cliene no encontrado");
+            }
+            else{
+                this.cargarTabla(leer); 
+            }
+       } 
     }//GEN-LAST:event_buscarActionPerformed
 
-    private void buscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buscar1ActionPerformed
+    private void checkOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutActionPerformed
+        DefaultTableModel modelot=(DefaultTableModel)tablaReservas.getModel();        
+        int a = tablaReservas.getSelectedRow();
+        String pattern = "###,###,###";
+        DecimalFormat myFormatter = new DecimalFormat(pattern);
+        myFormatter = new DecimalFormat(pattern,DecimalFormatSymbols.getInstance(Locale.GERMANY));
+ 
+        if(a<0){
+            JOptionPane.showMessageDialog(jPanel1, "Debe seleccionar una fila de la tabla para realizar Cheack Out");
+        }else{
+            Number numero = null;
+            try {
+                numero = myFormatter.parse((String)modelot.getValueAt(a, 0));
+            } catch (ParseException ex) {
+                Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int cedula = numero.intValue();
+            String nombre = (String) modelot.getValueAt(a, 1);
+            String apellido = (String) modelot.getValueAt(a, 2);
+            App.CheckOut(cedula, nombre, apellido);
+            modelot.removeRow(a);
+            
+        }
+    }//GEN-LAST:event_checkOutActionPerformed
 
     private void restaurarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restaurarTablaActionPerformed
         this.cargarTabla(App.listaEstado);
@@ -314,7 +352,7 @@ public class Estado extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscar;
-    private javax.swing.JButton buscar1;
+    private javax.swing.JButton checkOut;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -325,7 +363,7 @@ public class Estado extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton restaurarTabla;
-    private javax.swing.JTextField tCedula;
+    private javax.swing.JTextField tNombre;
     private javax.swing.JTable tablaReservas;
     // End of variables declaration//GEN-END:variables
 }

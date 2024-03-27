@@ -4,6 +4,8 @@
  */
 package estructuras;
 
+import clases.Habitacion;
+
 /**
  *
  * @author Leonardo
@@ -14,7 +16,8 @@ public class ArbolAVL<T> {
     public ArbolAVL() {
         this.raiz = null;
     }
-
+    
+    //a continuación, getters y setters
     public NodoArbolAVL getRaiz() {
         return raiz;
     }
@@ -59,12 +62,13 @@ public class ArbolAVL<T> {
         nodo.setHijoDer(null);
         return temp;
     }
-   
+    
+    //llamada a la funcion insertar
     public void insertar(Object element){
         NodoArbolAVL<T> nodo = new NodoArbolAVL(element);
         setRaiz(insertar(nodo, this.getRaiz()));
     }
-   
+    //funcion que insera un elemento en el arlbol como una hoja
     public NodoArbolAVL insertar(NodoArbolAVL newnodo, NodoArbolAVL root) {
         if (root == null){
             return newnodo;
@@ -78,11 +82,13 @@ public class ArbolAVL<T> {
         actualizarAltura(root);
         return rotacion(root);
     }
-   
+    
+    //llamada a la funcion borrar
     public void borrar(int key) {
         setRaiz(borrar(key, ArbolAVL.this.getRaiz()));
     }
-   
+    
+    //funcion que se encarga de borrar un nodo de la lista.
     public NodoArbolAVL borrar(int key, NodoArbolAVL nodo){
         if (nodo == null) {
             return null;
@@ -91,17 +97,17 @@ public class ArbolAVL<T> {
         }else if (key < nodo.getkey()) {
             nodo.setHijoIzq(borrar (key, nodo.getHijoIzq()));
         } else {
-            //Case 1, node is a leaf o has only one child
+            //Caso 1. tiene un solo hijo
             if (nodo.getHijoIzq() == null) {
                 return nodo.getHijoDer();
             } else if (nodo.getHijoDer() == null) {
                 return nodo.getHijoIzq();
             }
-            //Case 2:node has two children
+            //Caso 2. tiene dos hijos
             NodoArbolAVL replacement = getMaxandDelete(nodo.getHijoIzq());
             replacement.setHijoDer(nodo.getHijoDer());
             replacement.setHijoIzq(nodo.getHijoIzq());
-            if (ArbolAVL.this.getRaiz().getkey() == key){
+            if (this.getRaiz().getkey() == key){
                 setRaiz(replacement);
             }
             nodo = replacement;
@@ -110,16 +116,19 @@ public class ArbolAVL<T> {
         actualizarAltura(nodo);
         return rotacion(nodo);
     }
-   
+    
+    //devuelve la altura de un nodo
     public int altura(NodoArbolAVL nodo){
         return nodo!= null ? nodo.getAltura() :0;
     }
-   
+    
+    //permite actualizar la altura de un nodo
     public void actualizarAltura (NodoArbolAVL nodo){
         int maxHeight = Math.max(altura(nodo.getHijoIzq()), altura(nodo.getHijoDer()));
         nodo.setAltura(maxHeight + 1);
     }
-   
+    
+    //funcion que verifica si un nodo necesita rotar
     public NodoArbolAVL rotacion (NodoArbolAVL nodo) {
         int bf = factorEquilibrio(nodo);
         //Case 1: left heavy
@@ -138,12 +147,14 @@ public class ArbolAVL<T> {
         }
         return nodo;
     }
-   
+    
+    //verifica que un nodo está en equilibrio restando las alturas de sus hijos
     public int factorEquilibrio (NodoArbolAVL nodo){
         return nodo != null ? altura(nodo.getHijoIzq()) - altura(nodo.getHijoDer()) : 0;
        
     }
-   
+    
+    //rotacion simple a la derecha
     public NodoArbolAVL rotarDerecha(NodoArbolAVL nodo){
         NodoArbolAVL left = nodo.getHijoIzq();
         NodoArbolAVL leftright = left.getHijoDer();
@@ -153,7 +164,8 @@ public class ArbolAVL<T> {
         actualizarAltura (left);
         return left;
     }
-   
+    
+    //rotacion simple a la izquierda
     public NodoArbolAVL rotarIzquierda (NodoArbolAVL nodo){
         NodoArbolAVL right = nodo.getHijoDer();
         NodoArbolAVL rightleft = right.getHijoIzq();
@@ -163,7 +175,8 @@ public class ArbolAVL<T> {
         actualizarAltura (right);
         return right;
     }
-       
+    
+    //busqueda en el Arbol AVL
     public Object buscar (int key, NodoArbolAVL root){
         if (root == null) {
             return null;
@@ -177,6 +190,7 @@ public class ArbolAVL<T> {
         }
         
     }
+    //recorrido inOrder para verificar que se construyó correctamente el arbol
     public void inOrder(NodoArbolAVL root) {
         if (root!= null){
             inOrder(root.getHijoIzq());

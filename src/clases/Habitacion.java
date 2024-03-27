@@ -17,6 +17,7 @@ public class Habitacion {
     private Cliente ocupante;
     private ListaDoble<Cliente> historial;
     
+    //clase que se encarga de guardar información de las habitaciones
     public Habitacion(int numHab, String tipo, int piso){
         this.piso=piso;
         this.numHab=numHab;
@@ -24,6 +25,8 @@ public class Habitacion {
         this.ocupante=null;
         this.historial=new ListaDoble();
     }
+    
+    //getters y setters
     public void setOcupante(Cliente nCliente){
         this.ocupante=nCliente;
     }
@@ -45,6 +48,8 @@ public class Habitacion {
     public String getTipo(){
         return this.tipo;
     }
+    
+    //permite agregar un cliente al historial
     public void agregarAlHistorial(Cliente cliente){
         this.historial.append(cliente);
     }

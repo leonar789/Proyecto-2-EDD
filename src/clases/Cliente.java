@@ -8,6 +8,8 @@ package clases;
  *
  * @author Leonardo
  */
+
+//clase que guarda información del cliente
 public class Cliente {
 
     private int cedula;
@@ -50,7 +52,10 @@ public class Cliente {
         this.nombreCompleto = nombre + " " + apellido;
     }
 
-
+    //getters y setters
+    public void setNumHab(int nHab){
+        this.habitacion=nHab;
+    }
     public int getCedula() {
         return this.cedula;
     }

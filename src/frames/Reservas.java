@@ -13,7 +13,11 @@ import estructuras.NodoDoble;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -31,16 +35,19 @@ public class Reservas extends javax.swing.JPanel {
      * Creates new form Iniciar_Simulacion
      */
     
-    
+    String pattern;
+    DecimalFormat myFormatter;
     public Reservas() {
         initComponents();
+        pattern= "###,###,###";
+        myFormatter = new DecimalFormat(pattern);
+        myFormatter = new DecimalFormat(pattern,DecimalFormatSymbols.getInstance(Locale.GERMANY));
     }
     
     
     
 
-    
-    //una vez finalizada la simulación, habilita la edición del grafo
+    //permite cargar los datos de la tabla desde una lista
     public void cargarTabla(ListaDoble lista){
         
         
@@ -50,9 +57,7 @@ public class Reservas extends javax.swing.JPanel {
         i-=1;
         }
         NodoDoble aux=lista.getFirstNodo();
-        String pattern = "###,###,###";
-        DecimalFormat myFormatter = new DecimalFormat(pattern);
-        myFormatter = new DecimalFormat(pattern,DecimalFormatSymbols.getInstance(Locale.GERMANY));
+        
         while (aux!=null){
             Object[] fila = new Object[9];
             fila[0]=myFormatter.format(((Cliente)aux.get()).getCedula());
@@ -92,7 +97,7 @@ public class Reservas extends javax.swing.JPanel {
         buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        buscar1 = new javax.swing.JButton();
+        checkIn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         restaurarTabla = new javax.swing.JButton();
@@ -128,7 +133,9 @@ public class Reservas extends javax.swing.JPanel {
             tablaReservas.getColumnModel().getColumn(8).setPreferredWidth(40);
         }
 
-        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel1.setBackground(new java.awt.Color(102, 102, 255));
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Reservas");
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -187,10 +194,10 @@ public class Reservas extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel4.setText("Check In");
 
-        buscar1.setText("Registrar Entrada");
-        buscar1.addActionListener(new java.awt.event.ActionListener() {
+        checkIn.setText("Registrar Entrada");
+        checkIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscar1ActionPerformed(evt);
+                checkInActionPerformed(evt);
             }
         });
 
@@ -204,7 +211,7 @@ public class Reservas extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(buscar1)))
+                        .addComponent(checkIn)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -213,7 +220,7 @@ public class Reservas extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buscar1)
+                .addComponent(checkIn)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -262,14 +269,12 @@ public class Reservas extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(72, 72, 72)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(59, 59, 59)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)))
                 .addContainerGap())
@@ -277,7 +282,7 @@ public class Reservas extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,18 +300,57 @@ public class Reservas extends javax.swing.JPanel {
     }//GEN-LAST:event_tCedulaActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        int cedula=Integer.parseInt(tCedula.getText());
-        ListaDoble nLista= new ListaDoble();
-        Cliente c=(Cliente)App.reservas.buscar(cedula, App.reservas.getRaiz());
-        nLista.append(c);
-        this.cargarTabla(nLista);
+        try{
+            
+            int cedula=Integer.parseInt(tCedula.getText());
+            if (cedula<=0){
+                JOptionPane.showInternalMessageDialog(null, "Debes ingresar solo números positivos", "Ingreso inválido", JOptionPane.ERROR_MESSAGE);
+
+            }
+            else{
+                ListaDoble nLista= new ListaDoble();
+                Cliente c=(Cliente)App.reservas.buscar(cedula, App.reservas.getRaiz());
+                if (c==null){
+                    JOptionPane.showInternalMessageDialog(null, "No hay ningun cliente con la cédula "+myFormatter.format(cedula), "No Encontrado", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+                else{
+                    nLista.append(c);
+                    this.cargarTabla(nLista);
+                }
+            }
+            
+        }catch(Exception e){
+            JOptionPane.showInternalMessageDialog(null, "Por favor ingrese solo números en el recuadro. Sin ningún separador. Ej:29651228", "Ingreso inválido", JOptionPane.ERROR_MESSAGE);
+
+        }
+        
+       
+       
        
         
     }//GEN-LAST:event_buscarActionPerformed
 
-    private void buscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buscar1ActionPerformed
+    private void checkInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInActionPerformed
+        DefaultTableModel modelot=(DefaultTableModel)tablaReservas.getModel();        
+        int a = tablaReservas.getSelectedRow();
+        
+ 
+        if(a<0){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila de la tabla para realizar Cheack Out");
+        }else{
+            Number numero = null;
+            try {
+                numero = myFormatter.parse((String)modelot.getValueAt(a, 0));
+            } catch (ParseException ex) {
+                Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int cedula = numero.intValue();
+            App.checkIn(cedula);
+            modelot.removeRow(a);
+            
+        }
+    }//GEN-LAST:event_checkInActionPerformed
 
     private void restaurarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restaurarTablaActionPerformed
         this.cargarTabla(App.listaReservas);
@@ -316,17 +360,14 @@ public class Reservas extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscar;
-    private javax.swing.JButton buscar1;
-    private javax.swing.JButton buscar2;
+    private javax.swing.JButton checkIn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton restaurarTabla;

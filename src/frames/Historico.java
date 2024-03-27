@@ -14,6 +14,7 @@ import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -38,9 +39,8 @@ public class Historico extends javax.swing.JPanel {
     
     
     
-
     
-    //una vez finalizada la simulación, habilita la edición del grafo
+    //permite cargar los datos de la tabla desde una lista
     public void cargarTabla(ListaDoble lista){
         
         
@@ -123,7 +123,8 @@ public class Historico extends javax.swing.JPanel {
             tablaReservas.getColumnModel().getColumn(8).setPreferredWidth(40);
         }
 
-        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Histórico de Clientes");
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -236,7 +237,7 @@ public class Historico extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,9 +254,33 @@ public class Historico extends javax.swing.JPanel {
     }//GEN-LAST:event_tHabActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        int nHab=Integer.parseInt(tHab.getText());
-        ListaDoble nLista= App.getHistorico(nHab);
-        this.cargarTabla(nLista);
+        try{
+            int nHab=Integer.parseInt(tHab.getText());
+            if (nHab<=0){
+                JOptionPane.showInternalMessageDialog(null, "Debes ingresar solo números positivos", "Ingreso inválido", JOptionPane.ERROR_MESSAGE);
+
+            }
+            else{
+                ListaDoble nLista= App.getHistorico(nHab);
+                if (nLista==null){
+                    JOptionPane.showInternalMessageDialog(null, "Recuerde que el rango de habitaciones va desde 1 hasta 300", "Habitación inexistente", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+                else if (nLista.getLen()==0){
+                    JOptionPane.showInternalMessageDialog(null, "Aún no hay clientes que ocuparan la habitación "+nHab, "Sin historial", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+                else{
+                    this.cargarTabla(nLista);
+                }
+            }
+            
+            
+        } catch(Exception e){
+            JOptionPane.showInternalMessageDialog(null, "Debe ingresar solo números enteros en el recuadro", "Ingreso inválido", JOptionPane.ERROR_MESSAGE);
+
+        }
+        
        
         
     }//GEN-LAST:event_buscarActionPerformed
