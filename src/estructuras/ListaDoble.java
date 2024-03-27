@@ -6,6 +6,11 @@ package estructuras;
 
 import clases.Habitacion;
 import clases.Cliente;
+import com.mycompany.hola2.HashTable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -236,6 +241,17 @@ public class ListaDoble<T> {
             }
             habitacion = habitacion.nNext();
         }        
-    }     
+    }   
+ 
+    public HashTable hacerHash(){
+        NodoDoble nodo = this.getFirstNodo();
+        HashTable hashy = new HashTable(len);
+        while(nodo != null){
+            hashy.Insertar((Cliente) nodo.get());
+            nodo = nodo.nNext();
+        }
+        return hashy;
+    }
+    
     
 }

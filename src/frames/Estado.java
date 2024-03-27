@@ -7,10 +7,12 @@ package frames;
 
 import clases.App;
 import clases.Cliente;
+import com.mycompany.hola2.HashTable;
 
 import estructuras.ListaDoble;
 import estructuras.NodoDoble;
 import java.awt.Component;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -130,7 +132,6 @@ public class Estado extends javax.swing.JPanel {
         jLabel3.setText("Nombre");
 
         tCedula.setBackground(new java.awt.Color(255, 255, 255));
-        tCedula.setForeground(new java.awt.Color(0, 0, 0));
         tCedula.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         tCedula.setToolTipText("");
         tCedula.addActionListener(new java.awt.event.ActionListener() {
@@ -287,17 +288,33 @@ public class Estado extends javax.swing.JPanel {
     }//GEN-LAST:event_tCedulaActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+       /*
         int cedula=Integer.parseInt(tCedula.getText());
         ListaDoble nLista= new ListaDoble();
         Cliente c=(Cliente)App.reservas.buscar(cedula, App.reservas.getRaiz());
         nLista.append(c);
         this.cargarTabla(nLista);
-       
-        
+       */
+       String nombre_completo = tCedula.getText();
+       String[] partes = nombre_completo.split(" ");
+       HashTable hash = App.listaEstado.hacerHash();
+       ListaDoble leer = hash.Buscar(partes[0], partes[1]);
+       this.cargarTabla(leer); 
     }//GEN-LAST:event_buscarActionPerformed
 
     private void buscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscar1ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel modelot=(DefaultTableModel)tablaReservas.getModel();        
+        int a = tablaReservas.getSelectedRow();
+        if(a<0){
+            JOptionPane.showMessageDialog(jPanel1, "Ha habido un problema con la fila elegida");
+        }else{
+            int cedula = (int) modelot.getValueAt(a, 0);
+            String nombre = (String) modelot.getValueAt(a, 1);
+            String apellido = (String) modelot.getValueAt(a, 2);
+            App.CheckOut(cedula, nombre, apellido);
+            modelot.removeRow(a);
+            
+        }
     }//GEN-LAST:event_buscar1ActionPerformed
 
     private void restaurarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restaurarTablaActionPerformed

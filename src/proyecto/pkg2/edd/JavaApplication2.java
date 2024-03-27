@@ -9,6 +9,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import estructuras.ArbolAVL;
 import clases.Cliente;
 import clases.Habitacion;
+import com.mycompany.hola2.HashTable;
 import estructuras.ListaDoble;
 import estructuras.NodoDoble;
 import java.io.BufferedReader;
@@ -17,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -34,14 +37,11 @@ public class JavaApplication2 {
      * @throws java.io.IOException
      */
     
-    public ListaDoble hacerLista(String archivo, String tema, boolean copia) throws IOException {
+    public ListaDoble hacerLista(String archivo, String tema) throws IOException {
         try{
             ListaDoble lista = new ListaDoble();
             lector = new BufferedReader(new FileReader(archivo));
             while((linea = lector.readLine())!= null){
-                //if(copia == true){
-                //   linea = linea.replaceAll("\"", "");
-                //}
                 System.out.println(linea);
                 partes = linea.split(",");
                 switch (tema) {
@@ -124,8 +124,46 @@ public class JavaApplication2 {
         }
         
     }
-    
-    
+    /*
+    public void CheckOut(Cliente cliente, HashTable estado, ListaDoble historico, ArbolAVL habitaciones, ListaDoble estadoLista){
+        ListaDoble hash = estado.Buscar(cliente.getNombre(), cliente.getApellido());
+        NodoDoble cli = hash.getFirstNodo();
+        while(cli != null){
+            if(((Cliente) cli.get()).getCedula() == cliente.getCedula()){
+                break;                
+            }
+            cli = cli.nNext();
+        }
+        int numHab = cliente.getHabitacion();
+        NodoDoble historia = historico.getFirstNodo();
+        NodoDoble estaba = estadoLista.getFirstNodo();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        while(((Cliente) historia.get()).getHabitacion() < numHab){
+            historia = historia.nNext();
+        }
+        while(((Cliente) estaba.get()).getCedula() != cliente.getCedula()){
+            estaba = estaba.nNext();
+        }
+        Cliente clientico = null;
+        while(cli != null){
+            if(((Cliente) cli.get()).getHabitacion() == numHab){
+                Cliente objeto = (Cliente) cli.get();
+                clientico = new Cliente(objeto.getCedula(),objeto.getNombre(),objeto.getApellido(), objeto.getEmail(), objeto.getGenero(),objeto.getCelular(), objeto.getFechaLlegada(), LocalDate.now().format(dateTimeFormatter), objeto.getCelular());
+                NodoDoble nuevo_historia= new NodoDoble(clientico);
+                estadoLista.delete(estaba);
+                estado.Eliminar((Cliente) cli.get());
+                nuevo_historia.setPrev(historia);
+                nuevo_historia.setNext(historia.nNext());
+                (historia.nNext()).setPrev(nuevo_historia);
+                historia.setNext(nuevo_historia);
+            }
+            cli = cli.nNext();
+        }
+        Habitacion habitacion = (Habitacion) habitaciones.buscar(numHab, habitaciones.getRaiz());
+        habitacion.agregarAlHistorial(clientico);
+        habitacion.setOcupante(null);
+    }        
+    */
     
     
 }

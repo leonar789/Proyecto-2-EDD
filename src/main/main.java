@@ -5,15 +5,9 @@
 package main;
 
 import com.opencsv.exceptions.CsvValidationException;
-import estructuras.ArbolAVL;
-import clases.Cliente;
-import clases.Habitacion;
-import estructuras.ListaDoble;
-import estructuras.NodoDoble;
 import frames.VentanaPrincipal;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import proyecto.pkg2.edd.JavaApplication2;
 
 /**
  *
@@ -45,6 +39,18 @@ public class main {
         //ls.Guardar("./src/db/estado.csv", listaEstado, "estado");
         //ls.Guardar("./src/db/Histórico.csv", listaHistorico, "historico");
         //ls.Guardar("./src/db/reservas.csv", listaReservas, "reservas");
+        /*
+        JavaApplication2 ls = new JavaApplication2();
+        ListaDoble listaReservas = ls.hacerLista("./src/db/reservas.csv", "reserva"), listaHistorico = ls.hacerLista("./src/db/Histórico.csv", "historico"), listaHabitaciones = ls.hacerLista("./src/db/habitaciones.csv", "habitacion"), listaEstado = ls.hacerLista("./src/db/estado.csv", "estado");
+        listaHabitaciones.EstadoHistorico(listaEstado, listaHistorico);
+        ArbolAVL habitaciones = ls.hacerArbol(listaHabitaciones);
+        Habitacion aver = (Habitacion) habitaciones.buscar(23, habitaciones.getRaiz());
+        System.out.println(aver.getOcupante().getNombre());
+        HashTable prueba = listaEstado.hacerHash();
+        ListaDoble individuo = prueba.Buscar("Rufus", "Pesselt");
+        System.out.println(((Cliente) individuo.getFirstNodo().get()).getCedula());
+        ls.CheckOut((Cliente) individuo.getFirstNodo().get(), prueba, listaHistorico, habitaciones, listaEstado
+        */
     }
     
 }
