@@ -73,9 +73,8 @@ public class Reservas extends javax.swing.JPanel {
             modelot.addRow(fila);
         }
         tablaReservas.setModel(modelot);
-        //resizeColumnWidth(tablaReservas);
+
         tablaReservas.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        //tablaReservas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     }
 
     /**
@@ -346,8 +345,10 @@ public class Reservas extends javax.swing.JPanel {
                 Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
             }
             int cedula = numero.intValue();
-            App.checkIn(cedula);
-            modelot.removeRow(a);
+            if (App.checkIn(cedula)){
+                modelot.removeRow(a);
+            }
+            
             
         }
     }//GEN-LAST:event_checkInActionPerformed

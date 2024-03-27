@@ -131,7 +131,7 @@ public class App {
     }
     
     //funcion que elimina un elemento del arbol AVL de Reservas y lo introduce en la Hash Table de estado
-    public static void checkIn(int cedula){
+    public static boolean checkIn(int cedula){
         Cliente cliente = (Cliente)reservas.buscar(cedula, reservas.getRaiz());
         int disponible =0;
         NodoDoble auxHab=listaHabitaciones.getFirstNodo();
@@ -143,7 +143,7 @@ public class App {
         }
         if (auxHab==null){
             JOptionPane.showInternalMessageDialog(null, "No hay ninguna habitación "+cliente.getTipoHabitacion()+" disponible actualmente", "No hay Disponibilidad", JOptionPane.INFORMATION_MESSAGE);
-
+            return false;
         }
         else{
             App.listaReservas.deleteByKey(cliente);
@@ -160,7 +160,7 @@ public class App {
             }
             App.listaEstado.insertarPorIndice(cliente, posicion);
             JOptionPane.showInternalMessageDialog(null, "Encantados de recibirlo. Su número de habitación es: "+((Habitacion)auxHab.get()).getNumHab(), "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-
+            return true;
         }
         
         
