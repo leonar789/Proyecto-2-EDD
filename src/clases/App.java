@@ -4,8 +4,10 @@
  */
 package clases;
 
+import com.opencsv.exceptions.CsvValidationException;
 import estructuras.ArbolAVL;
 import estructuras.ListaDoble;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import proyecto.pkg2.edd.JavaApplication2;
 
@@ -39,6 +41,14 @@ public class App {
     public static ListaDoble getHistorico(int nHab){
         Habitacion hab=(Habitacion)App.habitaciones.buscar(nHab, App.habitaciones.getRaiz());
         return hab.getHistorial();
+    }
+    public static void Guardar() throws IOException, FileNotFoundException, CsvValidationException{
+        ls.Vaciado("./src/db/Histórico.csv");
+        ls.Vaciado("./src/db/estado.csv");
+        ls.Vaciado("./src/db/reservas.csv");
+        ls.Guardar("./src/db/estado.csv", listaEstado, "estado");
+        ls.Guardar("./src/db/Histórico.csv", listaHistorico, "historico");
+        ls.Guardar("./src/db/reservas.csv", listaReservas, "reservas");
     }
     
 }

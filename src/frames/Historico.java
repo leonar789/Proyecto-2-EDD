@@ -11,6 +11,9 @@ import clases.Cliente;
 import estructuras.ListaDoble;
 import estructuras.NodoDoble;
 import java.awt.Component;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -47,9 +50,12 @@ public class Historico extends javax.swing.JPanel {
         i-=1;
         }
         NodoDoble aux=lista.getFirstNodo();
+        String pattern = "###,###,###";
+        DecimalFormat myFormatter = new DecimalFormat(pattern);
+        myFormatter = new DecimalFormat(pattern,DecimalFormatSymbols.getInstance(Locale.GERMANY));
         while (aux!=null){
             Object[] fila = new Object[9];
-            fila[0]=((Cliente)aux.get()).getCedula();
+            fila[0]=myFormatter.format(((Cliente)aux.get()).getCedula());
             fila[1]=((Cliente)aux.get()).getNombre();
             fila[2]=((Cliente)aux.get()).getApellido();
             fila[3]=((Cliente)aux.get()).getEmail();
@@ -62,9 +68,7 @@ public class Historico extends javax.swing.JPanel {
             modelot.addRow(fila);
         }
         tablaReservas.setModel(modelot);
-        //resizeColumnWidth(tablaReservas);
         tablaReservas.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        //tablaReservas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     }
 
     /**
